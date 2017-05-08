@@ -47,9 +47,9 @@ function playVideoOnScroll(){
       video.pause();
     }, 10)
 }
-//AJAX
+//AJAX Carga Busqueda
 function buscar(city,type,min,max){
-  $.ajax({
+    $.ajax({
     url: './backend/cargaTodo.php',
     type: 'post',
     dataType:'json',
@@ -67,29 +67,61 @@ function buscar(city,type,min,max){
   });
 }
 
+//AJAX Carga Ciudades
+function ciudades(){
+  $.ajax({
+    url: './backend/ciudades.php',
+    type: 'post',
+    dataType:'json',
+    data: {},
+    complete: function (response,data) {
+      $('#selectCiudad').html(response.responseText);
+    },
+    error: function () {
+      $('#selectCiudad').html('Bummer: there was an error!');
+    }
+  });
+}
+
+//AJAX Carga Tipos
+function tipos(){
+  $.ajax({
+    url: './backend/tipos.php',
+    type: 'post',
+    dataType:'json',
+    data: {},
+    complete: function (response,data) {
+      $('#selectTipo').html(response.responseText);
+    },
+    error: function () {
+      $('#selectTipo').html('Bummer: there was an error!');
+    }
+  });
+}
 inicializarSlider();
 playVideoOnScroll();
+ciudades();
+tipos();
 
 $( document ).ready(function() {
   console.log( "document loaded" );
+
   $('select').material_select();
+
   $("#mostrarTodos").click(function(){
       buscar("","","0","100000");
   });
 
   $(document).on('submit', '#formulario', function(e) {
-   e.preventDefault();
-   var minimo = $(".irs-from").text();
-   var maximo = $(".irs-to").text();
-   minimo = minimo.replace("$","");
-   minimo = minimo.replace(" ","");
-   maximo = maximo.replace("$","");
-   maximo = maximo.replace(" ","");
-   buscar("","",minimo,maximo);
-});
-
-
-
-//  $("#submitButton").click(function(){
-//  });
+    e.preventDefault();
+    var type = $("#selectTipo").val();
+    var city = $("#selectCiudad").val();
+    var minimo = $(".irs-from").text();
+    var maximo = $(".irs-to").text();
+    minimo = minimo.replace("$","");
+    minimo = minimo.replace(" ","");
+    maximo = maximo.replace("$","");
+    maximo = maximo.replace(" ","");
+    buscar(city,type,minimo,maximo);
+  });
 });
