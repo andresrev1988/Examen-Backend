@@ -47,6 +47,41 @@ function playVideoOnScroll(){
       video.pause();
     }, 10)
 }
+//AJAX
+function buscar(city,type,min,max){
+  $.ajax({
+    url: './backend/cargaTodo.php',
+    type: 'post',
+    dataType:'json',
+    data: { "city": city,
+            "type": type,
+            "min": min,
+            "max": max,
+          },
+    complete: function (response,data) {
+      $('#output').html(response.responseText);
+    },
+    error: function () {
+      $('#output').html('Bummer: there was an error!');
+    }
+  });
+}
 
 inicializarSlider();
 playVideoOnScroll();
+
+$( document ).ready(function() {
+  console.log( "document loaded" );
+  $("#mostrarTodos").click(function(){
+      buscar("","","0","100000");
+  });
+/*  $("#submitButton").click(function(){
+      var minimo = $(".irs-from").text();
+      var maximo = $(".irs-to").text();
+      minimo = minimo.replace("$","");
+      minimo = minimo.replace(" ","");
+      maximo = maximo.replace("$","");
+      maximo = maximo.replace(" ","");
+      buscar("","",minimo,maximo);
+  });*/
+});
