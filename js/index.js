@@ -72,16 +72,24 @@ playVideoOnScroll();
 
 $( document ).ready(function() {
   console.log( "document loaded" );
+  $('select').material_select();
   $("#mostrarTodos").click(function(){
       buscar("","","0","100000");
   });
-/*  $("#submitButton").click(function(){
-      var minimo = $(".irs-from").text();
-      var maximo = $(".irs-to").text();
-      minimo = minimo.replace("$","");
-      minimo = minimo.replace(" ","");
-      maximo = maximo.replace("$","");
-      maximo = maximo.replace(" ","");
-      buscar("","",minimo,maximo);
-  });*/
+
+  $(document).on('submit', '#formulario', function(e) {
+   e.preventDefault();
+   var minimo = $(".irs-from").text();
+   var maximo = $(".irs-to").text();
+   minimo = minimo.replace("$","");
+   minimo = minimo.replace(" ","");
+   maximo = maximo.replace("$","");
+   maximo = maximo.replace(" ","");
+   buscar("","",minimo,maximo);
+});
+
+
+
+//  $("#submitButton").click(function(){
+//  });
 });
